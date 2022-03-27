@@ -1,3 +1,11 @@
+/* NOTE: Tailwind Hex package currently does not seem to support the following
+ * out of the box without NodeJS:
+ *
+ * - @import statements
+ * - CSS nesting
+ *
+ * So, they have been removed.
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
