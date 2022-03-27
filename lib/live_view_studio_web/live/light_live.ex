@@ -44,13 +44,13 @@ defmodule LiveViewStudioWeb.LightLive do
   end
 
   @impl true
-  def handle_event("on", _params, socket) do
+  def handle_event("on", _unsigned_params, socket) do
     socket = assign(socket, :brightness, @max_brightness)
     {:noreply, socket}
   end
 
   @impl true
-  def handle_event("up", _params, socket) do
+  def handle_event("up", _unsigned_params, socket) do
     socket =
       update(socket, :brightness, &min(&1 + @brightness_unit, @max_brightness))
 
@@ -58,7 +58,7 @@ defmodule LiveViewStudioWeb.LightLive do
   end
 
   @impl true
-  def handle_event("down", _params, socket) do
+  def handle_event("down", _unsigned_params, socket) do
     socket =
       update(socket, :brightness, &max(&1 - @brightness_unit, @min_brightness))
 
@@ -66,7 +66,7 @@ defmodule LiveViewStudioWeb.LightLive do
   end
 
   @impl true
-  def handle_event("off", _params, socket) do
+  def handle_event("off", _unsigned_params, socket) do
     socket = assign(socket, :brightness, @min_brightness)
     {:noreply, socket}
   end
