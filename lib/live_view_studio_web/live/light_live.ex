@@ -17,28 +17,40 @@ defmodule LiveViewStudioWeb.LightLive do
     ~H"""
     <h1>Front Porch Light</h1>
     <div id="light">
-      <div class="meter">
-        <span style={"width: #{@brightness}%"}>
-          <%= @brightness %>%
-        </span>
-      </div>
-      <button phx-click="off">
-        <img src="images/light-off.svg">
+      <.meter brightness={@brightness} />
+      <.light_button event="off" image="light-off" />
+      <.light_button event="down" image="down" />
+      <.light_button event="up" image="up" />
+      <.light_button event="on" image="light-on" />
+      <.light_me_up_button />
+    </div>
+    """
+  end
+
+  defp meter(assigns) do
+    ~H"""
+    <div class="meter">
+      <span style={"width: #{@brightness}%"}>
+        <%= @brightness %>%
+      </span>
+    </div>
+    """
+  end
+
+  defp light_button(assigns) do
+    ~H"""
+    <button phx-click={@event}>
+      <img src={"images/#{@image}.svg"}>
+    </button>
+    """
+  end
+
+  defp light_me_up_button(assigns) do
+    ~H"""
+    <div class="light-me-up">
+      <button phx-click="random">
+        Light me up!
       </button>
-      <button phx-click="down">
-        <img src="images/down.svg">
-      </button>
-      <button phx-click="up">
-        <img src="images/up.svg">
-      </button>
-      <button phx-click="on">
-        <img src="images/light-on.svg">
-      </button>
-      <div class="light-me-up">
-        <button phx-click="random">
-          Light me up!
-        </button>
-      </div>
     </div>
     """
   end
