@@ -1,19 +1,42 @@
-# LiveViewStudio
+# LiveView Studio
 
-To start your Phoenix server:
+This is my sandbox for [Pragmatic Studio][]'s [Phoenix LiveView course][].
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+I followed [their instructions][] to upgrade to [Phoenix 1.6][], though I opted
+to keep [NodeJS][] out of the application entirely, which meant:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+- no usage of custom CSS `@import` statements ([Comment out @import
+  directives][])
+- no CSS nesting ([Does Tailwind CLI support the nested classes?][])
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+I can live with that if it means no need for Node. See `assets/css/app.css` for
+the changes that needed to be made.
 
-## Learn more
+## Dependencies
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+- Elixir 1.13.3
+
+## Setup
+
+```sh
+git clone https://github.com/paulfioravanti/live_view_studio.git
+cd live_view_studio
+mix setup
+```
+
+## Run
+
+```sh
+mix phx.server
+```
+
+Open <http://localhost:4000>
+
+[Comment out @import directives]: https://github.com/phoenixframework/tailwind/pull/26
+[Does Tailwind CLI support the nested classes?]: https://github.com/tailwindlabs/tailwindcss/discussions/7216
+[Elixir]: https://elixir-lang.org/
+[NodeJS]: https://nodejs.org/en/
+[Phoenix 1.6]: https://www.phoenixframework.org/blog/phoenix-1.6-released
+[Pragmatic Studio]: https://pragmaticstudio.com/
+[Phoenix LiveView course]: https://pragmaticstudio.com/courses/phoenix-liveview-pro
+[their instructions]: https://pragmaticstudio.com/tutorials/adding-tailwind-css-to-phoenix
