@@ -1,9 +1,11 @@
 # LiveView Studio
 
 This is my sandbox for [Pragmatic Studio][]'s [Phoenix LiveView course][].
+Sandboxes are for play, and so there may be differences between this code and
+what is coded in the tutorial.
 
-I followed [their instructions][] to upgrade to [Phoenix 1.6][], though I opted
-to keep [NodeJS][] out of the application entirely, which meant:
+I followed [Pragmatic Studio's instructions][] to upgrade to [Phoenix 1.6][],
+though I opted to keep [NodeJS][] out of the application entirely, which meant:
 
 - no usage of custom CSS `@import` statements ([Comment out @import
   directives][])
@@ -37,6 +39,6 @@ Open <http://localhost:4000>
 [Elixir]: https://elixir-lang.org/
 [NodeJS]: https://nodejs.org/en/
 [Phoenix 1.6]: https://www.phoenixframework.org/blog/phoenix-1.6-released
-[Pragmatic Studio]: https://pragmaticstudio.com/
 [Phoenix LiveView course]: https://pragmaticstudio.com/courses/phoenix-liveview-pro
-[their instructions]: https://pragmaticstudio.com/tutorials/adding-tailwind-css-to-phoenix
+[Pragmatic Studio]: https://pragmaticstudio.com/
+[Pragmatic Studio's instructions]: https://pragmaticstudio.com/tutorials/adding-tailwind-css-to-phoenix
