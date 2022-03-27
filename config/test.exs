@@ -17,7 +17,8 @@ config :live_view_studio, LiveViewStudio.Repo,
 # you can enable the server option below.
 config :live_view_studio, LiveViewStudioWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "Ljfy7ELNDnW+rK/VDNbT9nMDswR6eslFskRSfefYdI3WD0VGJosOFaCEAT1w4vX6",
+  secret_key_base:
+    "Ljfy7ELNDnW+rK/VDNbT9nMDswR6eslFskRSfefYdI3WD0VGJosOFaCEAT1w4vX6",
   server: false
 
 # In test we don't send emails.

@@ -13,7 +13,11 @@ config :live_view_studio,
 # Configures the endpoint
 config :live_view_studio, LiveViewStudioWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: LiveViewStudioWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    view: LiveViewStudioWeb.ErrorView,
+    accepts: ~w(html json),
+    layout: false
+  ],
   pubsub_server: LiveViewStudio.PubSub,
   live_view: [signing_salt: "Aq7Ri7Wu"]
 

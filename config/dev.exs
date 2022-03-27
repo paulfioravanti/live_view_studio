@@ -22,10 +22,12 @@ config :live_view_studio, LiveViewStudioWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "kjMtdrs2PmN1d2eX13zPi6fEOUzBp/FPFx0rJCWj9C9fA7TMnAtW/yv7u0vv+dQ8",
+  secret_key_base:
+    "kjMtdrs2PmN1d2eX13zPi6fEOUzBp/FPFx0rJCWj9C9fA7TMnAtW/yv7u0vv+dQ8",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    esbuild:
+      {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
