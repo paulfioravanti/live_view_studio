@@ -1,9 +1,14 @@
 defmodule LiveViewStudioWeb.LightLive do
   use LiveViewStudioWeb, :live_view
 
+  @default_brightness 10
+  @brightness_unit 10
+  @min_brightness 0
+  @max_brightness 100
+
   @impl true
   def mount(_params, _session, socket) do
-    socket = assign(socket, :brightness, 10)
+    socket = assign(socket, :brightness, @default_brightness)
     {:ok, socket}
   end
 
@@ -35,25 +40,29 @@ defmodule LiveViewStudioWeb.LightLive do
 
   @impl true
   def handle_event("on", _params, socket) do
-    socket = assign(socket, :brightness, 100)
+    socket = assign(socket, :brightness, @max_brightness)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("up", _params, socket) do
-    socket = update(socket, :brightness, &(&1 + 10))
+    socket =
+      update(socket, :brightness, &min(&1 + @brightness_unit, @max_brightness))
+
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("down", _params, socket) do
-    socket = update(socket, :brightness, &(&1 - 10))
+    socket =
+      update(socket, :brightness, &max(&1 - @brightness_unit, @min_brightness))
+
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("off", _params, socket) do
-    socket = assign(socket, :brightness, 0)
+    socket = assign(socket, :brightness, @min_brightness)
     {:noreply, socket}
   end
 end
