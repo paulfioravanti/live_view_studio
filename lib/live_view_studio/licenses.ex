@@ -7,7 +7,7 @@ defmodule LiveViewStudio.Licenses do
     if seats <= @standard_price_max_quantity do
       seats * @standard_price
     else
-      100 * (seats - @standard_price_max_quantity) * @discount_price
+      100 + (seats - @standard_price_max_quantity) * @discount_price
     end
   end
 end
