@@ -13,8 +13,6 @@ defmodule LiveViewStudioWeb.LicenseLive do
     socket =
       assign(socket,
         seats: @initial_seats,
-        min_seats: @min_seats,
-        max_seats: @max_seats,
         amount: Licenses.calculate(@initial_seats)
       )
 
@@ -29,11 +27,7 @@ defmodule LiveViewStudioWeb.LicenseLive do
       <div class="card">
         <div class="content">
           <.heading seats={@seats} />
-          <.slider
-            seats={@seats}
-            min_seats={@min_seats}
-            max_seats={@max_seats}
-          />
+          <.slider seats={@seats} />
           <div class="amount">
             <%= number_to_currency(@amount) %>
           </div>
@@ -42,6 +36,9 @@ defmodule LiveViewStudioWeb.LicenseLive do
     </div>
     """
   end
+
+  defp min_seats(), do: @min_seats
+  defp max_seats(), do: @max_seats
 
   defp heading(assigns) do
     ~H"""
@@ -61,9 +58,9 @@ defmodule LiveViewStudioWeb.LicenseLive do
     <.form let={f} for={:licenses} phx-change="update">
       <%= text_input f, :seats,
         type: "range",
-        min: @min_seats,
-        max: @max_seats,
-        value: @seats %>
+        value: @seats,
+        min: min_seats(),
+        max: max_seats() %>
     </.form>
     """
   end
