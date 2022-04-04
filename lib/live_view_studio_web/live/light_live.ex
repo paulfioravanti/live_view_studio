@@ -8,7 +8,13 @@ defmodule LiveViewStudioWeb.LightLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    socket = assign(socket, :brightness, @default_brightness)
+    socket =
+      assign(socket,
+        brightness: @default_brightness,
+        min_brightness: @min_brightness,
+        max_brightness: @max_brightness
+      )
+
     {:ok, socket}
   end
 
@@ -23,6 +29,11 @@ defmodule LiveViewStudioWeb.LightLive do
       <.light_button event="up" image="up" />
       <.light_button event="on" image="light-on" />
       <.light_me_up_button />
+      <.slider
+        brightness={@brightness}
+        min_brightness={@min_brightness}
+        max_brightness={@max_brightness}
+      />
     </div>
     """
   end
@@ -55,16 +66,32 @@ defmodule LiveViewStudioWeb.LightLive do
     """
   end
 
+  defp slider(assigns) do
+    ~H"""
+    <.form let={f} for={:light} phx-change="update">
+      <%= text_input f, :brightness,
+        type: "range",
+        min: @min_brightness,
+        max: @max_brightness,
+        value: @brightness %>
+    </.form>
+    """
+  end
+
   @impl true
   def handle_event("on", _unsigned_params, socket) do
-    socket = assign(socket, :brightness, @max_brightness)
+    socket = assign(socket, :brightness, socket.assigns.max_brightness)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("up", _unsigned_params, socket) do
     socket =
-      update(socket, :brightness, &min(&1 + @brightness_unit, @max_brightness))
+      update(
+        socket,
+        :brightness,
+        &min(&1 + @brightness_unit, socket.assigns.max_brightness)
+      )
 
     {:noreply, socket}
   end
@@ -72,20 +99,36 @@ defmodule LiveViewStudioWeb.LightLive do
   @impl true
   def handle_event("down", _unsigned_params, socket) do
     socket =
-      update(socket, :brightness, &max(&1 - @brightness_unit, @min_brightness))
+      update(
+        socket,
+        :brightness,
+        &max(&1 - @brightness_unit, socket.assigns.min_brightness)
+      )
 
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("off", _unsigned_params, socket) do
-    socket = assign(socket, :brightness, @min_brightness)
+    socket = assign(socket, :brightness, socket.assigns.min_brightness)
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("random", _unsigned_params, socket) do
     socket = assign(socket, :brightness, Enum.random(1..100))
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "update",
+        %{"light" => %{"brightness" => brightness}},
+        socket
+      ) do
+    brightness = String.to_integer(brightness)
+    socket = assign(socket, brightness: brightness)
+
     {:noreply, socket}
   end
 end

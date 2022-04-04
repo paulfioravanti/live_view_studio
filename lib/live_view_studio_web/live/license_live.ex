@@ -28,21 +28,12 @@ defmodule LiveViewStudioWeb.LicenseLive do
     <div id="license">
       <div class="card">
         <div class="content">
-          <div class="seats">
-            <img src="images/license.svg" />
-            <span>
-              Your license is currently good for
-              <strong><%= @seats %></strong>
-              <%= ngettext("seat", "seats", @seats) %>
-            </span>
-          </div>
-          <form phx-change="update">
-            <input type="range"
-                   min={@min_seats}
-                   max={@max_seats}
-                   name="seats"
-                   value={@seats} />
-          </form>
+          <.heading seats={@seats} />
+          <.slider
+            seats={@seats}
+            min_seats={@min_seats}
+            max_seats={@max_seats}
+          />
           <div class="amount">
             <%= number_to_currency(@amount) %>
           </div>
@@ -52,15 +43,35 @@ defmodule LiveViewStudioWeb.LicenseLive do
     """
   end
 
-  @impl true
-  def handle_event("update", %{"seats" => seats}, socket) do
-    seats = String.to_integer(seats)
+  defp heading(assigns) do
+    ~H"""
+    <div class="seats">
+      <img src="images/license.svg" />
+      <span>
+        Your license is currently good for
+        <strong><%= @seats %></strong>
+        <%= ngettext("seat", "seats", @seats) %>
+      </span>
+    </div>
+    """
+  end
 
-    socket =
-      assign(socket,
-        seats: seats,
-        amount: Licenses.calculate(seats)
-      )
+  defp slider(assigns) do
+    ~H"""
+    <.form let={f} for={:licenses} phx-change="update">
+      <%= text_input f, :seats,
+        type: "range",
+        min: @min_seats,
+        max: @max_seats,
+        value: @seats %>
+    </.form>
+    """
+  end
+
+  @impl true
+  def handle_event("update", %{"licenses" => %{"seats" => seats}}, socket) do
+    seats = String.to_integer(seats)
+    socket = assign(socket, seats: seats, amount: Licenses.calculate(seats))
 
     {:noreply, socket}
   end
