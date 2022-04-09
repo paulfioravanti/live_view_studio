@@ -137,6 +137,68 @@ ul.examples li a {
   @apply text-4xl leading-none font-extrabold text-gray-900 mt-4;
 }
 
+/* Dashboard */
+
+#dashboard {
+  @apply max-w-2xl mx-auto;
+}
+
+#dashboard .stats {
+  @apply mb-8 rounded-lg bg-white shadow-lg grid grid-cols-3;
+}
+
+#dashboard .stats .stat {
+  @apply p-6 text-center;
+}
+
+#dashboard .stats .stat .name {
+  @apply block mt-2 text-lg leading-6 font-medium text-gray-500;
+}
+
+#dashboard .stats .stat .value {
+  @apply block text-5xl leading-none font-extrabold text-indigo-600;
+}
+
+#dashboard button {
+    @apply inline-flex items-center px-4 py-2 border border-indigo-300 text-sm shadow-sm leading-6 font-medium rounded-md text-indigo-700 bg-indigo-100 transition ease-in-out duration-150 outline-none;
+}
+
+#dashboard button img {
+  @apply mr-2 h-4 w-4;
+}
+
+#dashboard button:active {
+  @apply bg-indigo-200;
+}
+
+#dashboard button:hover {
+  @apply bg-white;
+}
+
+#dashboard .controls {
+  @apply flex items-center justify-end;
+}
+
+#dashboard .controls form {
+  @apply flex items-center;
+}
+
+#dashboard .controls form label {
+  @apply uppercase tracking-wide text-indigo-800 text-xs font-semibold mr-2;
+}
+
+#dashboard .controls form select {
+  @apply appearance-none bg-gray-200 border-indigo-300 border text-indigo-700 py-2 pr-8 rounded-lg leading-tight font-semibold cursor-pointer mr-2 h-10;
+}
+
+#dashboard .controls form select:focus {
+  @apply outline-none bg-white border-indigo-500;
+}
+
+#dashboard .last-updated {
+  @apply flex justify-end uppercase tracking-wide text-indigo-800 text-xs font-semibold mr-2 my-2;
+}
+
 /* Phoenix specific classes for generated files. */
 
 .phx-hero {
