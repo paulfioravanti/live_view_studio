@@ -15,12 +15,16 @@ defmodule LiveViewStudioWeb.SalesDashboardLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    timer_ref = if connected?(socket), do: refresh_timer(1)
+
     socket =
       socket
       |> assign_stats()
-      |> assign(refresh_rate: 1, last_updated_at: Timex.now(@time_zone))
-
-    if connected?(socket), do: schedule_refresh(socket)
+      |> assign(
+        refresh_rate: 1,
+        last_updated_at: Timex.now(@time_zone),
+        timer_ref: timer_ref
+      )
 
     {:ok, socket}
   end
@@ -85,10 +89,13 @@ defmodule LiveViewStudioWeb.SalesDashboardLive do
 
   @impl true
   def handle_event("refresh", _unsigned_params, socket) do
+    %{assigns: %{timer_ref: timer_ref, refresh_rate: refresh_rate}} = socket
+    timer_ref = refresh_timer(refresh_rate, timer_ref)
+
     socket =
       socket
       |> assign_stats()
-      |> assign(last_updated_at: Timex.now(@time_zone))
+      |> assign(last_updated_at: Timex.now(@time_zone), timer_ref: timer_ref)
 
     {:noreply, socket}
   end
@@ -97,23 +104,33 @@ defmodule LiveViewStudioWeb.SalesDashboardLive do
   def handle_event("select-refresh-rate", params, socket) do
     %{"refresh" => %{"rate" => rate}} = params
     refresh_rate = String.to_integer(rate)
-    socket = assign(socket, refresh_rate: refresh_rate)
+    timer_ref = refresh_timer(refresh_rate, socket.assigns.timer_ref)
+
+    socket = assign(socket, refresh_rate: refresh_rate, timer_ref: timer_ref)
     {:noreply, socket}
   end
 
   @impl true
-  def handle_info(:tick, socket) do
+  def handle_info(:tick, %{assigns: %{refresh_rate: refresh_rate}} = socket) do
+    timer_ref = refresh_timer(refresh_rate)
+
     socket =
       socket
       |> assign_stats()
-      |> assign(last_updated_at: Timex.now(@time_zone))
+      |> assign(last_updated_at: Timex.now(@time_zone), timer_ref: timer_ref)
 
-    schedule_refresh(socket)
     {:noreply, socket}
   end
 
-  defp schedule_refresh(%{assigns: %{refresh_rate: refresh_rate}}) do
+  defp refresh_timer(refresh_rate, timer_ref \\ nil)
+
+  defp refresh_timer(refresh_rate, nil) do
     Process.send_after(self(), :tick, refresh_rate * @one_second)
+  end
+
+  defp refresh_timer(refresh_rate, timer_ref) do
+    Process.cancel_timer(timer_ref)
+    refresh_timer(refresh_rate)
   end
 
   defp assign_stats(socket) do
