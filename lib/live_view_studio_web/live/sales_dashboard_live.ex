@@ -12,19 +12,22 @@ defmodule LiveViewStudioWeb.SalesDashboardLive do
   ]
   @time_format "%H:%M:%S"
   @time_zone "Australia/Sydney"
+  @default_refresh_rate 1
 
   @impl true
   def mount(_params, _session, socket) do
-    timer_ref = if connected?(socket), do: refresh_timer(1)
+    timer_ref = if connected?(socket), do: refresh_timer(@default_refresh_rate)
+
+    initial_assigns = %{
+      refresh_rate: @default_refresh_rate,
+      last_updated_at: Timex.now(@time_zone),
+      timer_ref: timer_ref
+    }
 
     socket =
       socket
+      |> assign(initial_assigns)
       |> assign_stats()
-      |> assign(
-        refresh_rate: 1,
-        last_updated_at: Timex.now(@time_zone),
-        timer_ref: timer_ref
-      )
 
     {:ok, socket}
   end
@@ -101,8 +104,8 @@ defmodule LiveViewStudioWeb.SalesDashboardLive do
   end
 
   @impl true
-  def handle_event("select-refresh-rate", params, socket) do
-    %{"refresh" => %{"rate" => rate}} = params
+  def handle_event("select-refresh-rate", unsigned_params, socket) do
+    %{"refresh" => %{"rate" => rate}} = unsigned_params
     refresh_rate = String.to_integer(rate)
     timer_ref = refresh_timer(refresh_rate, socket.assigns.timer_ref)
 

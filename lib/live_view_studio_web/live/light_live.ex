@@ -29,8 +29,8 @@ defmodule LiveViewStudioWeb.LightLive do
     """
   end
 
-  defp min_brightness(), do: @min_brightness
-  defp max_brightness(), do: @max_brightness
+  defp min_brightness, do: @min_brightness
+  defp max_brightness, do: @max_brightness
 
   defp meter(assigns) do
     ~H"""

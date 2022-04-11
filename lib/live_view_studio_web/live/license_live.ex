@@ -95,8 +95,8 @@ defmodule LiveViewStudioWeb.LicenseLive do
 
   @impl true
   def handle_info(:tick, socket) do
-    expiration_time = socket.assigns.expiration_time
-    socket = assign(socket, time_remaining: time_remaining(expiration_time))
+    time_remaining = time_remaining(socket.assigns.expiration_time)
+    socket = assign(socket, time_remaining: time_remaining)
     {:noreply, socket}
   end
 
