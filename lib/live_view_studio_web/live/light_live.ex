@@ -23,7 +23,7 @@ defmodule LiveViewStudioWeb.LightLive do
       <.light_button event="down" image="down" />
       <.light_button event="up" image="up" />
       <.light_button event="on" image="light-on" />
-      <.light_me_up_button />
+      <.light_button event="random" image="fire" />
       <.slider brightness={@brightness} />
     </div>
     """
@@ -47,16 +47,6 @@ defmodule LiveViewStudioWeb.LightLive do
     <button phx-click={@event}>
       <img src={"images/#{@image}.svg"}>
     </button>
-    """
-  end
-
-  defp light_me_up_button(assigns) do
-    ~H"""
-    <div class="light-me-up">
-      <button phx-click="random">
-        Light me up!
-      </button>
-    </div>
     """
   end
 
